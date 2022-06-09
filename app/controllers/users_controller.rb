@@ -1,4 +1,13 @@
 class UsersController < ApplicationController
+  def create
+    user_form = UserForm.from_params(params)
+    if user_form.save!
+      render json: { message: 'User Created Successfully' }, status: :created
+    else
+      render json:  { message: 'error creating user' }, status: :unprocessable_entity
+    end
+  end
+
   def forgot_password_withot_service
     user = User.find_by(email: params[:email])
     unless user
